@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Loja Musical</title>
+  <link href="/css/styles.css" rel="stylesheet">
+  <style>
+    /* Estilo para os cards de produtos */
+    .product-card {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      max-width: 300px;
+      margin: auto;
+    }
+    .product-card:hover {
+      transform: scale(1.05);
+    }
+
+    /* Estilo para o carrossel de imagens */
+    .carousel img {
+      width: 100%;
+      height: 200px; /* Altura fixa para evitar distorções */
+      object-fit: cover; /* Garante que a imagem não fique esticada */
+      border-radius: 8px;
+    }
+
+    /* Botões de navegação do carrossel */
+    .carousel button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-size: 18px;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .carousel .prev {
+      left: 10px;
+    }
+    .carousel .next {
+      right: 10px;
+    }
+
+    /* Estilo para o botão do WhatsApp */
+    .whatsapp-button {
+      background-color: #25D366;
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .whatsapp-button:hover {
+      background-color: #128C7E;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-blue-600">Loja Musical</a>
+      <ul class="hidden md:flex space-x-4">
+        <li><a href="/" class="text-gray-700 hover:text-blue-600">Home</a></li>
+        <li><a href="#about" class="text-gray-700 hover:text-blue-600">Sobre</a></li>
+        <li><a href="/vender" class="text-gray-700 hover:text-blue-600">Vender</a></li>
+        <li><a href="/contato" class="text-gray-700 hover:text-blue-600">Contato</a></li>
+      </ul>
+      <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+        Login
+      </a>
+    </nav>
+  </header>
+
+  <!-- Lista de Produtos Aprovados -->
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-4">Produtos Disponíveis</h2>
+
+    <div id="products-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('products-list');
+
+      try {
+        const response = await fetch('/api/products/approved');
+        if (!response.ok) throw new Error('Erro ao buscar produtos aprovados.');
+
+        const products = await response.json();
+
+        if (products.length === 0) {
+          container.innerHTML = '<p class="text-gray-600 text-center col-span-full">Nenhum produto disponível.</p>';
+          return;
+        }
+
+        products.forEach(product => {
+          const { id, name, description, price, sellerPhone, images } = product;
+
+          const whatsappLink = `https://wa.me/${sellerPhone}?text=Olá, estou interessado no produto "${name}"`;
+
+          const productCard = `
+            <div class="product-card bg-white p-4 rounded-lg shadow-md" id="product-${id}">
+              <h3 class="text-lg font-bold mb-2">${name}</h3>
+              <div class="carousel relative">
+                ${images
+                  .map((image, index) => `
+                    <img src="/uploads/${image}" alt="${name}" style="display: ${index === 0 ? 'block' : 'none'};" class="w-full h-48 object-cover rounded-md carousel-image">
+                  `)
+                  .join('')}
+                <button class="prev" onclick="changeImage('${id}', -1)">&#10094;</button>
+                <button class="next" onclick="changeImage('${id}', 1)">&#10095;</button>
+              </div>
+              <p class="text-gray-600 mt-2">${description}</p>
+              <p class="text-green-600 font-bold mt-2">Preço: R$ ${price.toFixed(2)}</p>
+              <a href="${whatsappLink}" target="_blank" class="whatsapp-button block text-center">
+                Entrar em Contato
+              </a>
+            </div>
+          `;
+
+          container.innerHTML += productCard;
+        });
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = '<p class="text-red-600 text-center col-span-full">Erro ao carregar produtos.</p>';
+      }
+    });
+
+    function changeImage(productId, direction) {
+      // Use um ID válido prefixado com "product-"
+      const productElement = document.getElementById(`product-${productId}`);
+      const images = Array.from(productElement.querySelectorAll('.carousel-image'));
+      const currentIndex = images.findIndex(img => img.style.display === 'block');
+      images[currentIndex].style.display = 'none';
+
+      let newIndex = currentIndex + direction;
+      if (newIndex < 0) newIndex = images.length - 1;
+      if (newIndex >= images.length) newIndex = 0;
+
+      images[newIndex].style.display = 'block';
+    }
+  </script>
+</body>
+</html>
