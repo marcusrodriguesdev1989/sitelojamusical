@@ -6,6 +6,120 @@
   <title>Home - Loja Musical</title>
   <link href="/css/styles.css" rel="stylesheet">
   <style>
+    /* HEADER */
+    header {
+      background: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Logo */
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+      text-decoration: none;
+    }
+
+    /* Menu Desktop */
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: #34495e;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #1abc9c;
+    }
+
+    /* Botão Login Desktop */
+    .login-button {
+      background: #1abc9c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .login-button:hover {
+      background: #16a085;
+    }
+
+    /* Mobile */
+    #menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #34495e;
+      cursor: pointer;
+    }
+
+    #mobile-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 1rem;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      padding: 1rem;
+      list-style: none;
+      width: 200px;
+      z-index: 1000;
+    }
+
+    #mobile-menu a {
+      color: #34495e;
+      text-decoration: none;
+      padding: 0.5rem 0;
+      display: block;
+      transition: color 0.3s;
+    }
+
+    #mobile-menu a:hover {
+      color: #1abc9c;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1023px) {
+      .nav-links, .login-button-desktop {
+        display: none;
+      }
+
+      #menu-toggle {
+        display: block;
+      }
+
+      #mobile-menu.active {
+        display: block;
+      }
+
+      /* Login no mobile menu */
+      .login-button-mobile {
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center;
+      }
+    }
     /* Estilo para os cards de produtos */
     .product-card {
       background: white;
@@ -14,7 +128,13 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease;
       max-width: 300px;
+      width: 100%;
+      height: 500px; /* Altura fixa para todos os cards */
       margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Alinha o conteúdo verticalmente */
+      position: relative; /* Adicionado para posicionar as setas dentro do card */
     }
     .product-card:hover {
       transform: scale(1.05);
@@ -26,13 +146,14 @@
       height: 200px; /* Altura fixa para evitar distorções */
       object-fit: cover; /* Garante que a imagem não fique esticada */
       border-radius: 8px;
+      cursor: pointer; /* Indica que a imagem é clicável */
     }
 
     /* Botões de navegação do carrossel */
     .carousel button {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 50%; /* Centraliza verticalmente */
+      transform: translateY(-50%); /* Ajusta o deslocamento para ficar exatamente no meio */
       background-color: rgba(0, 0, 0, 0.5);
       color: white;
       border: none;
@@ -40,6 +161,7 @@
       padding: 8px;
       cursor: pointer;
       border-radius: 50%;
+      z-index: 10; /* Garante que as setas fiquem acima das imagens */
     }
     .carousel .prev {
       left: 10px;
@@ -64,23 +186,106 @@
     .whatsapp-button:hover {
       background-color: #128C7E;
     }
+
+    /* Estilo do Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow: auto;
+    }
+
+    .modal-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain; /* Mostra a imagem completa sem cortes */
+    }
+
+    /* Refazendo as setas do modal */
+    .modal-prev,
+    .modal-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro para contraste */
+      color: white !important; /* Força a cor branca */
+      border: none;
+      font-size: 48px; /* Tamanho maior para as setas */
+      padding: 15px; /* Espaço ao redor da seta */
+      cursor: pointer;
+      border-radius: 50%;
+      width: 80px; /* Largura fixa para garantir tamanho consistente */
+      height: 80px; /* Altura fixa para garantir tamanho consistente */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001; /* Garante que as setas fiquem acima da imagem */
+    }
+
+    .modal-prev {
+      left: 20px;
+    }
+
+    .modal-next {
+      right: 20px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-modal:hover {
+      color: red;
+    }
   </style>
 </head>
 <body class="bg-gray-100">
-  <!-- Header -->
-  <header class="bg-white shadow-md">
-    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="text-2xl font-bold text-blue-600">Loja Musical</a>
-      <ul class="hidden md:flex space-x-4">
-        <li><a href="/" class="text-gray-700 hover:text-blue-600">Home</a></li>
-        <li><a href="#about" class="text-gray-700 hover:text-blue-600">Sobre</a></li>
-        <li><a href="/vender" class="text-gray-700 hover:text-blue-600">Vender</a></li>
-        <li><a href="/contato" class="text-gray-700 hover:text-blue-600">Contato</a></li>
+  <header>
+    <div class="nav-container">
+      <!-- Logo -->
+      <a href="/" class="logo">Loja Boeira</a>
+
+      <!-- Menu Desktop -->
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="#about">Sobre</a></li>
+        <li><a href="/vender">Vender</a></li>
+        <li><a href="/contato">Contato</a></li>
       </ul>
-      <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-        Login
-      </a>
-    </nav>
+
+      <!-- Botão Login Desktop -->
+      <a href="/login" class="login-button login-button-desktop">Login</a>
+
+      <!-- Ícone Hambúrguer Mobile -->
+      <button id="menu-toggle">☰</button>
+    </div>
+
+    <!-- Menu Mobile -->
+    <ul id="mobile-menu">
+      <li><a href="/">Home</a></li>
+      <li><a href="#about">Sobre</a></li>
+      <li><a href="/vender">Vender</a></li>
+      <li><a href="/contato">Contato</a></li>
+      <li><a href="/login" class="login-button login-button-mobile">Login</a></li>
+    </ul>
   </header>
 
   <!-- Lista de Produtos Aprovados -->
@@ -90,7 +295,20 @@
     <div id="products-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
   </main>
 
+  <!-- Modal -->
+  <div id="image-modal" class="modal">
+    <span class="close-modal">&times;</span>
+    <div class="modal-content">
+      <button class="modal-prev" onclick="changeModalImage(-1)">&#10094;</button>
+      <img id="modal-image" class="modal-image" src="" alt="Imagem Ampliada">
+      <button class="modal-next" onclick="changeModalImage(1)">&#10095;</button>
+    </div>
+  </div>
+
   <script>
+    let currentProductImages = [];
+    let currentImageIndex = 0;
+
     document.addEventListener('DOMContentLoaded', async () => {
       const container = document.getElementById('products-list');
 
@@ -108,7 +326,7 @@
         products.forEach(product => {
           const { id, name, description, price, sellerPhone, images } = product;
 
-          const whatsappLink = `https://wa.me/${sellerPhone}?text=Olá, estou interessado no produto "${name}"`;
+          const whatsappLink = `https://wa.me/${11953818319}?text=Olá, estou interessado no produto "${name}"`;
 
           const productCard = `
             <div class="product-card bg-white p-4 rounded-lg shadow-md" id="product-${id}">
@@ -116,7 +334,7 @@
               <div class="carousel relative">
                 ${images
                   .map((image, index) => `
-                    <img src="/uploads/${image}" alt="${name}" style="display: ${index === 0 ? 'block' : 'none'};" class="w-full h-48 object-cover rounded-md carousel-image">
+                    <img src="/uploads/${image}" alt="${name}" style="display: ${index === 0 ? 'block' : 'none'};" class="w-full h-48 object-cover rounded-md carousel-image" onclick="openModal('${id}', ${index})">
                   `)
                   .join('')}
                 <button class="prev" onclick="changeImage('${id}', -1)">&#10094;</button>
@@ -139,7 +357,6 @@
     });
 
     function changeImage(productId, direction) {
-      // Use um ID válido prefixado com "product-"
       const productElement = document.getElementById(`product-${productId}`);
       const images = Array.from(productElement.querySelectorAll('.carousel-image'));
       const currentIndex = images.findIndex(img => img.style.display === 'block');
@@ -151,6 +368,49 @@
 
       images[newIndex].style.display = 'block';
     }
+
+    function openModal(productId, imageIndex) {
+      const productElement = document.getElementById(`product-${productId}`);
+      const images = Array.from(productElement.querySelectorAll('.carousel-image')).map(img => img.src);
+
+      currentProductImages = images;
+      currentImageIndex = imageIndex;
+
+      const modal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('modal-image');
+
+      modalImage.src = currentProductImages[currentImageIndex];
+      modal.style.display = 'block';
+    }
+
+    function changeModalImage(direction) {
+      currentImageIndex += direction;
+      if (currentImageIndex < 0) currentImageIndex = currentProductImages.length - 1;
+      if (currentImageIndex >= currentProductImages.length) currentImageIndex = 0;
+
+      const modalImage = document.getElementById('modal-image');
+      modalImage.src = currentProductImages[currentImageIndex];
+    }
+
+    // Fechar o modal ao clicar no botão de fechar ou fora da imagem
+    document.querySelector('.close-modal').addEventListener('click', () => {
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'none';
+    });
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('image-modal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  </script>
+   <script>
+    // Toggle Menu Mobile
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('active');
+    });
   </script>
 </body>
 </html>
