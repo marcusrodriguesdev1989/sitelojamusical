@@ -8,7 +8,7 @@
   <style>
     /* HEADER */
     header {
-      background: white;
+      background: rgb(70, 69, 69);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 1rem;
     }
@@ -24,10 +24,14 @@
 
     /* Logo */
     .logo {
-      font-size: 1.5rem;
+      font-size: 2rem !important;
       font-weight: bold;
-      color: #2c3e50;
+      color: #0084ff;
       text-decoration: none;
+    }
+
+    .logo span{
+      color: rgb(246, 248, 250) !important;
     }
 
     /* Menu Desktop */
@@ -40,27 +44,28 @@
     }
 
     .nav-links a {
-      color: #34495e;
+      color: white !important;
       text-decoration: none;
       transition: color 0.3s;
     }
 
     .nav-links a:hover {
-      color: #1abc9c;
+      color: #324cdd !important;
     }
 
     /* Botão Login Desktop */
     .login-button {
-      background: #1abc9c;
-      color: white;
+      
+      background-color: #2563EB !important; /* Azul principal */
+      color: white !important;
       padding: 0.5rem 1rem;
       border-radius: 5px;
       text-decoration: none;
-      transition: background 0.3s;
+      transition: background-color 0.3s;
     }
 
     .login-button:hover {
-      background: #16a085;
+      background-color: #1E40AF !important; /* Azul mais escuro no hover */
     }
 
     /* Mobile */
@@ -69,9 +74,13 @@
       background: none;
       border: none;
       font-size: 1.5rem;
-      color: #34495e;
+      color: white !important;
       cursor: pointer;
     }
+
+    #mobile-menu.active {
+  display: block !important;
+}
 
     #mobile-menu {
       display: none;
@@ -83,9 +92,12 @@
       border-radius: 5px;
       padding: 1rem;
       list-style: none;
-      width: 200px;
+      width: 150px;
       z-index: 1000;
+      flex-direction: column; 
+      align-items: flex-start; 
     }
+
 
     #mobile-menu a {
       color: #34495e;
@@ -120,6 +132,49 @@
         text-align: center;
       }
     }
+
+    /* Dropdown do menu "Produtos" */
+.group:hover .group-hover\:block {
+  display: block !important;
+}
+
+.group {
+  position: relative;
+}
+
+.group-hover\:block {
+  display: none;
+}
+
+/* Estilo do dropdown */
+.group ul {
+  position: absolute;
+  min-width: 110px;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  list-style: none;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+.group ul li a {
+  color: black !important;
+  white-space: normal; /* Permite que o texto quebre se necessário */
+  word-break: break-all;
+  padding: 0.5rem 1rem;
+  display: block;
+  text-align: left;
+  transition: background 0.3s;
+}
+
+.group ul li a:hover {
+  background: #f0f0f0;
+  color: #1abc9c !important;
+}
     /* Estilo para os cards de produtos */
     .product-card {
       background: white;
@@ -255,38 +310,162 @@
     .close-modal:hover {
       color: red;
     }
+
+    /* Hero Section */
+    .hero-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      background: linear-gradient(90deg, white, #c7c7c7);
+      min-height: 300px;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .hero-text {
+      order: 1; /* Texto primeiro em mobile */
+      flex: 1;
+    }
+
+    .hero-text h2{
+      font-size: 2rem;
+    }
+
+    .hero-text p{
+      margin-bottom: 2rem;
+    }
+
+    .hero-image {
+      display: none;
+      order: 2;
+      max-width: 40%;
+      height: auto;
+      width: 70%; /* Reduzido em 30% */
+      margin: 0 auto;
+      padding-right: 4rem;
+    }
+
+    .hero-image img {
+      max-width: 100%; /* Evita overflow */
+      height: auto;
+    }
+
+    .hero-button {
+      background-color: #2563EB !important; /* Azul consistente */
+      color: white;
+      padding: 5px;
+      margin-top: 2rem;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .hero-button:hover {
+      background-color: #1E40AF !important; /* Azul consistente */
+    }
+
+    .hero-text a {
+  margin-top: 1rem; /* Espaço entre o texto e o botão */
+}
+
+    @media (max-width: 768px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image {
+        width: 100%;
+        display: block !important;
+      }
+    }
+
+    @media (min-width: 1024px) {
+  .hero-image {
+    display: block !important; /* Visível em desktop (>= 1024px) */
+  }
+}
   </style>
 </head>
 <body class="bg-gray-100">
-  <header>
-    <div class="nav-container">
-      <!-- Logo -->
-      <a href="/" class="logo">Loja Boeira</a>
-
-      <!-- Menu Desktop -->
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="#about">Sobre</a></li>
-        <li><a href="/vender">Vender</a></li>
-        <li><a href="/contato">Contato</a></li>
-      </ul>
-
-      <!-- Botão Login Desktop -->
-      <a href="/login" class="login-button login-button-desktop">Login</a>
-
-      <!-- Ícone Hambúrguer Mobile -->
-      <button id="menu-toggle">☰</button>
-    </div>
-
-    <!-- Menu Mobile -->
-    <ul id="mobile-menu">
+  <header class="bg-[#464545] shadow-md">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Logo (Esquerda) -->
+      <a href="/" class="logo">Loja<span>Boeira</span></a>
+  
+      <!-- Menu Centralizado -->
+      <div class="hidden md:flex space-x-4">
+        <ul class="nav-links flex items-center">
+          <li><a href="/" class="text-white hover:text-blue-600 transition duration-300">Home</a></li>
+          <li class="relative group">
+            <a href="/produtos" class="text-white hover:text-blue-600 transition duration-300">Produtos</a>
+            <ul class="absolute hidden group-hover:block bg-white shadow-md rounded-md py-2 space-y-1 text-gray-700 text-sm w-40" style="top: 100%; left: 0;">
+              <li><a href="/produtos/cordas" class="block px-4 py-2 hover:bg-blue-50 text-black">Cordas</a></li>
+              <li><a href="/produtos/teclas" class="block px-4 py-2 hover:bg-blue-50 text-black">Teclas</a></li>
+              <li><a href="/produtos/audio" class="block px-4 py-2 hover:bg-blue-50 text-black">Áudio</a></li>
+              <li><a href="/produtos/bateria" class="block px-4 py-2 hover:bg-blue-50 text-black">Bateria</a></li>
+              <li><a href="/produtos/percussao" class="block px-4 py-2 hover:bg-blue-50 text-black">Percussão</a></li>
+              <li><a href="/produtos/acessorios" class="block px-4 py-2 hover:bg-blue-50 text-black">Acessórios</a></li>
+            </ul>
+          </li>
+          <li><a href="#about" class="text-white hover:text-blue-600 transition duration-300">Sobre</a></li>
+          <li><a href="/vender" class="text-white hover:text-blue-600 transition duration-300">Vender</a></li>
+          <li><a href="/contato" class="text-white hover:text-blue-600 transition duration-300">Contato</a></li>
+        </ul>
+      </div>
+  
+      <!-- Botão Login e Hambúrguer (Direita) -->
+      <div class="flex items-center">
+        <a href="/login" class="login-button login-button-desktop">Login</a>
+        <button id="menu-toggle" class="md:hidden text-white focus:outline-none text-2xl">
+          ☰
+        </button>
+      </div>
+    </nav>
+  
+    <!-- Mobile Menu -->
+    <ul id="mobile-menu" class="hidden md:hidden bg-white shadow-lg rounded-lg absolute right-4 top-16 w-48 space-y-4 p-4">
       <li><a href="/">Home</a></li>
       <li><a href="#about">Sobre</a></li>
+      <li><a href="/produtos">Produtos</a></li>
       <li><a href="/vender">Vender</a></li>
       <li><a href="/contato">Contato</a></li>
       <li><a href="/login" class="login-button login-button-mobile">Login</a></li>
     </ul>
   </header>
+
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-to-r from-white to-gray-300 py-12">
+  <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center justify-around">
+    <!-- Texto e Botão (Esquerda) -->
+    <div class="hero-text mb-6 lg:mb-0 text-center lg:text-left">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Cadastre seu instrumento</h2>
+      <p class="text-gray-600 mb-6">Avaliamos seu produto e subimos um anúncio em nosso site.</p>
+      <a href="/vender" class="hero-button px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300">
+        Cadastrar Agora &#8594;
+      </a>
+    </div>
+
+    <!-- Imagem (Direita - Visível apenas em desktop) -->
+    <div class="hero-image hidden lg:block pr-5">
+      <img 
+        src="./img/img-hero.png" 
+        alt="Instrumento Musical" 
+        class="w-full lg:w-auto h-auto" 
+        style="transform: scale(1.2); margin: 0 auto;"
+      >
+    </div>
+  </div>
+</section>
+
+  <div class="bg-gray-100">
+  </div>
 
   <!-- Lista de Produtos Aprovados -->
   <main class="container mx-auto px-4 py-8">
@@ -406,11 +585,11 @@
     };
   </script>
    <script>
-    // Toggle Menu Mobile
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('active');
-    });
+    // Script para alternar o menu mobile
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  const mobileMenu = document.getElementById('mobile-menu');
+  mobileMenu.classList.toggle('active'); // Adiciona/remove a classe 'active'
+});
   </script>
 </body>
 </html>
