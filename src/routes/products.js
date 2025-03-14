@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads'); // Pasta onde as imagens serão salvas
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); 
+    cb(null, Date.now() + '-' + file.originalname);
   },
 });
 
@@ -19,17 +19,17 @@ const upload = multer({ storage });
 // Função para inicializar as rotas com o modelo Product
 module.exports = ({ Product }) => {
   // Rota para Cadastrar Produto
-  router.post('/', upload.array('images', 8), async (req, res) => { 
+  router.post('/', upload.array('images', 8), async (req, res) => {
     try {
-      const { 
-        name, 
-        description, 
-        suggestedPrice, 
-        category, 
-        sellerName, 
-        sellerPhone, 
-        sellerCPF, 
-        address 
+      const {
+        name,
+        description,
+        suggestedPrice,
+        category,
+        sellerName,
+        sellerPhone,
+        sellerCPF,
+        address,
       } = req.body;
 
       // Verifica se há arquivos enviados
@@ -38,7 +38,7 @@ module.exports = ({ Product }) => {
       }
 
       // Converte as imagens para um array de nomes
-      const images = req.files.map(file => file.filename);
+      const images = req.files.map((file) => file.filename);
 
       // Validação básica dos dados do vendedor
       if (!sellerName || !sellerPhone || !sellerCPF || !address) {
@@ -70,7 +70,7 @@ module.exports = ({ Product }) => {
   // Rota para Listar Produtos Pendentes
   router.get('/pending', async (req, res) => {
     try {
-      const pendingProducts = await Product.findAll({ 
+      const pendingProducts = await Product.findAll({
         where: { approved: false }, // Busca apenas produtos não aprovados
         attributes: [
           'id',
@@ -118,7 +118,7 @@ module.exports = ({ Product }) => {
   // Rota para Listar Produtos Aprovados
   router.get('/approved', async (req, res) => {
     try {
-      const approvedProducts = await Product.findAll({ 
+      const approvedProducts = await Product.findAll({
         where: { approved: true }, // Busca apenas produtos aprovados
         attributes: [
           'id',
@@ -140,5 +140,32 @@ module.exports = ({ Product }) => {
     }
   });
 
-  return router;
+  // Rota para buscar detalhes de um produto específico
+  router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const product = await Product.findByPk(id, {
+        attributes: [
+          'id',
+          'name',
+          'description',
+          'price',
+          'category',
+          'images',
+          'sellerName',
+          'sellerPhone',
+          'address',
+        ],
+      });
+      if (!product) {
+        return res.status(404).json({ message: 'Produto não encontrado.' });
+      }
+      res.json(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro ao buscar detalhes do produto.' });
+    }
+  });
+
+  return router; // Retorna o router configurado
 };

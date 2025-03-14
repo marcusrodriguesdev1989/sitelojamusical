@@ -7,17 +7,48 @@
   <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-  <!-- Header -->
-  <header class="bg-white shadow-md">
+  <header class="bg-[#464545] shadow-md">
     <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="text-2xl font-bold text-blue-600">Loja Musical</a>
-      <ul class="hidden md:flex space-x-4">
-        <li><a href="/" class="text-gray-700 hover:text-blue-600">Home</a></li>
-        <li><a href="#about" class="text-gray-700 hover:text-blue-600">Sobre</a></li>
-        <li><a href="/vender" class="text-gray-700 hover:text-blue-600">Vender</a></li>
-        <li><a href="/contato" class="text-gray-700 hover:text-blue-600">Contato</a></li>
-      </ul>
+      <!-- Logo (Esquerda) -->
+      <a href="/" class="logo">Loja<span>Boeira</span></a>
+  
+      <!-- Menu Centralizado -->
+      <div class="hidden md:flex space-x-4">
+        <ul class="nav-links flex items-center">
+          <li><a href="/" class="text-white hover:text-blue-600 transition duration-300">Home</a></li>
+          <li class="relative group">
+            <a href="/produtos" class="text-white hover:text-blue-600 transition duration-300">Produtos</a>
+            <ul class="absolute hidden group-hover:block bg-white shadow-md rounded-md py-2 space-y-1 text-gray-700 text-sm w-40" style="top: 100%; left: 0;">
+              <li><a href="/produtos/cordas" class="block px-4 py-2 hover:bg-blue-50 text-black">Cordas</a></li>
+              <li><a href="/produtos/teclas" class="block px-4 py-2 hover:bg-blue-50 text-black">Teclas</a></li>
+              <li><a href="/produtos/audio" class="block px-4 py-2 hover:bg-blue-50 text-black">Áudio</a></li>
+              <li><a href="/produtos/bateria" class="block px-4 py-2 hover:bg-blue-50 text-black">Bateria</a></li>
+              <li><a href="/produtos/percussao" class="block px-4 py-2 hover:bg-blue-50 text-black">Percussão</a></li>
+              <li><a href="/produtos/acessorios" class="block px-4 py-2 hover:bg-blue-50 text-black">Acessórios</a></li>
+            </ul>
+          </li>
+          <li><a href="#about" class="text-white hover:text-blue-600 transition duration-300">Sobre</a></li>
+          <li><a href="/contato" class="text-white hover:text-blue-600 transition duration-300">Contato</a></li>
+        </ul>
+      </div>
+  
+      <!-- Botão Login e Hambúrguer (Direita) -->
+      <div class="flex items-center">
+        <a href="/login" class="login-button login-button-desktop">Login</a>
+        <button id="menu-toggle" class="md:hidden text-white focus:outline-none text-2xl">
+          ☰
+        </button>
+      </div>
     </nav>
+  
+    <!-- Mobile Menu -->
+    <ul id="mobile-menu" class="hidden md:hidden bg-white shadow-lg rounded-lg absolute right-4 top-16 w-48 space-y-4 p-4">
+      <li><a href="/">Home</a></li>
+      <li><a href="#about">Sobre</a></li>
+      <li><a href="/produtos">Produtos</a></li>
+      <li><a href="/contato">Contato</a></li>
+      <li><a href="/login" class="login-button login-button-mobile">Login</a></li>
+    </ul>
   </header>
 
   <!-- Formulário de Login -->
@@ -68,6 +99,13 @@
           alert('Erro ao enviar o formulário.');
         }
       });
+    });
+  </script>
+  <script>
+    // Script para alternar o menu mobile
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('active'); // Adiciona/remove a classe 'active'
     });
   </script>
 </body>

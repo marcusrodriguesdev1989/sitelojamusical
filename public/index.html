@@ -225,6 +225,23 @@
       right: 10px;
     }
 
+    .ver-produto-button {
+      background-color: #2563EB;
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .ver-produto-button:hover {
+      background-color: #1E40AF;
+    }
+
     /* Estilo para o botão do WhatsApp */
     .whatsapp-button {
       background-color: #25D366;
@@ -397,7 +414,7 @@
   <header class="bg-[#464545] shadow-md">
     <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
       <!-- Logo (Esquerda) -->
-      <a href="/" class="logo">Loja<span>Boeira</span></a>
+      <a href="/" class="logo">GuitarSP<span>Centro</span></a>
   
       <!-- Menu Centralizado -->
       <div class="hidden md:flex space-x-4">
@@ -519,6 +536,9 @@
               </div>
               <p class="text-gray-600 mt-2">${description}</p>
               <p class="text-green-600 font-bold mt-2">Preço: R$ ${price.toFixed(2)}</p>
+              <a href="/produto.html?id=${id}" target="_blank" class="ver-produto-button block text-center">
+                Ver Produto
+              </a>
               <a href="${whatsappLink}" target="_blank" class="whatsapp-button block text-center">
                 Entrar em Contato
               </a>
@@ -584,10 +604,10 @@
   </script>
    <script>
     // Script para alternar o menu mobile
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  const mobileMenu = document.getElementById('mobile-menu');
-  mobileMenu.classList.toggle('active'); // Adiciona/remove a classe 'active'
-});
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('active'); // Adiciona/remove a classe 'active'
+    });
   </script>
 </body>
 </html>
